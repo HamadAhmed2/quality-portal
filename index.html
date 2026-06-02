@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quality Observation — Qcon</title>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -17,7 +17,7 @@
   --card:rgba(10,20,42,0.92);
 }
 html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:var(--ink);min-height:100vh;color:var(--text);overflow-x:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--ink);min-height:100vh;color:var(--text);overflow-x:hidden}
 #bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 
 /* SPLASH */
@@ -25,8 +25,8 @@ body{font-family:'Inter',sans-serif;background:var(--ink);min-height:100vh;color
 #splash.gone{opacity:0;visibility:hidden;pointer-events:none}
 .splash-logo{width:130px;height:auto;margin-bottom:10px;animation:iconPop 0.7s cubic-bezier(0.175,0.885,0.32,1.275) 0.2s both;}
 @keyframes iconPop{from{transform:scale(0.2) rotate(-30deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
-.splash-tagline{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:var(--muted2);letter-spacing:0.22em;text-transform:uppercase;margin-top:4px;animation:fadeUp 0.5s ease 0.95s both;}
-.splash-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:#fff;letter-spacing:-0.5px;animation:fadeUp 0.5s ease 0.8s both;}
+.splash-tagline{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;font-weight:600;color:var(--muted2);letter-spacing:0.22em;text-transform:uppercase;margin-top:4px;animation:fadeUp 0.5s ease 0.95s both;}
+.splash-title{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:26px;font-weight:700;color:#fff;letter-spacing:-0.5px;animation:fadeUp 0.5s ease 0.8s both;}
 .splash-title span{color:var(--teal)}
 .splash-bar-wrap{width:160px;height:2px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:36px;overflow:hidden;animation:fadeUp 0.4s ease 1.1s both;}
 .splash-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--teal));border-radius:2px}
@@ -43,7 +43,7 @@ body{font-family:'Inter',sans-serif;background:var(--ink);min-height:100vh;color
 .header-logo-wrap::before{content:'';position:absolute;inset:-14px;border-radius:30px;background:radial-gradient(ellipse at center, rgba(26,111,255,0.18) 0%, rgba(26,111,255,0.06) 50%, transparent 75%);animation:ringPulse 3.5s ease-in-out infinite;pointer-events:none;}
 .header-logo-wrap::after{content:'';position:absolute;inset:-2px;border-radius:20px;background:linear-gradient(135deg,rgba(26,111,255,0.22) 0%,rgba(0,212,200,0.10) 50%,transparent 100%);animation:ringPulse 3.5s ease-in-out infinite 0.5s;pointer-events:none;}
 @keyframes ringPulse{0%,100%{opacity:0.3;transform:scale(1)}50%{opacity:0.8;transform:scale(1.04)}}
-.app-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:#fff;letter-spacing:-0.4px;margin-top:14px;}
+.app-title{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:26px;font-weight:700;color:#fff;letter-spacing:-0.4px;margin-top:14px;}
 .app-title em{color:var(--teal);font-style:normal}
 .app-tagline{font-size:11px;color:var(--muted2);letter-spacing:0.2em;text-transform:uppercase;margin-top:4px;}
 .live-pill{display:inline-flex;align-items:center;gap:7px;margin-top:16px;padding:6px 16px;border:1px solid var(--border);border-radius:20px;font-size:11px;color:var(--teal);background:var(--teal2);letter-spacing:0.04em;}
@@ -55,7 +55,7 @@ body{font-family:'Inter',sans-serif;background:var(--ink);min-height:100vh;color
 @keyframes slideIn{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
 .card-header{padding:22px 26px 18px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,rgba(26,111,255,0.07) 0%,transparent 60%);}
 .card-header-icon{width:48px;height:48px;border-radius:14px;background:var(--blue3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
-.card-header h2{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:600;color:#fff}
+.card-header h2{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:19px;font-weight:600;color:#fff}
 .card-header p{font-size:13px;color:var(--muted2);margin-top:3px;line-height:1.4}
 .card-body{padding:22px 26px 26px}
 
@@ -63,7 +63,7 @@ body{font-family:'Inter',sans-serif;background:var(--ink);min-height:100vh;color
 .flabel{font-size:11px;font-weight:600;color:var(--blue2);text-transform:uppercase;letter-spacing:0.09em;margin:20px 0 10px;display:flex;align-items:center;gap:6px;}
 .flabel:first-child{margin-top:0}
 .req{color:#ff6b88}
-input[type=date],input[type=text],select,textarea{width:100%;padding:12px 15px;font-size:14px;font-family:'Inter',sans-serif;border:1px solid var(--border);border-radius:11px;background:rgba(255,255,255,0.03);color:var(--text);outline:none;transition:border-color 0.2s,box-shadow 0.2s,background 0.2s;-webkit-appearance:none;}
+input[type=date],input[type=text],select,textarea{width:100%;padding:12px 15px;font-size:14px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;border:1px solid var(--border);border-radius:11px;background:rgba(255,255,255,0.03);color:var(--text);outline:none;transition:border-color 0.2s,box-shadow 0.2s,background 0.2s;-webkit-appearance:none;}
 input:focus,select:focus,textarea:focus{border-color:var(--blue2);box-shadow:0 0 0 3px var(--blue3);background:rgba(26,111,255,0.04);}
 input::placeholder,textarea::placeholder{color:var(--muted)}
 textarea{resize:vertical;min-height:110px;line-height:1.6}
@@ -84,7 +84,7 @@ input[type=date]::-webkit-calendar-picker-indicator{filter:invert(0.5) sepia(1) 
 .photo-remove{position:absolute;top:-6px;right:-6px;background:#ff4466;border:none;border-radius:50%;width:20px;height:20px;color:#fff;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;}
 
 /* SUBMIT BUTTON */
-.btn-submit{width:100%;padding:16px;border-radius:13px;background:linear-gradient(135deg,var(--blue) 0%,#0055dd 100%);border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:opacity 0.15s,transform 0.1s,box-shadow 0.2s;font-family:'Space Grotesk',sans-serif;letter-spacing:0.02em;box-shadow:0 4px 20px rgba(26,111,255,0.3);margin-top:26px;}
+.btn-submit{width:100%;padding:16px;border-radius:13px;background:linear-gradient(135deg,var(--blue) 0%,#0055dd 100%);border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:opacity 0.15s,transform 0.1s,box-shadow 0.2s;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;letter-spacing:0.02em;box-shadow:0 4px 20px rgba(26,111,255,0.3);margin-top:26px;}
 .btn-submit:hover{opacity:0.9;box-shadow:0 6px 28px rgba(26,111,255,0.45)}
 .btn-submit:active{transform:scale(0.99)}
 .btn-submit:disabled{opacity:0.35;cursor:not-allowed;box-shadow:none}
@@ -94,10 +94,10 @@ input[type=date]::-webkit-calendar-picker-indicator{filter:invert(0.5) sepia(1) 
 .s-ring{width:100px;height:100px;border-radius:50%;background:var(--blue3);border:1.5px solid var(--blue2);display:flex;align-items:center;justify-content:center;margin:0 auto 26px;box-shadow:0 0 40px rgba(26,111,255,0.2);animation:popIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275);}
 @keyframes popIn{from{transform:scale(0.2);opacity:0}to{transform:scale(1);opacity:1}}
 .s-ring svg{width:44px;height:44px}
-#successScreen h2{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;color:#fff;margin-bottom:10px}
+#successScreen h2{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:24px;font-weight:700;color:#fff;margin-bottom:10px}
 #successScreen p{font-size:14px;color:var(--muted2);line-height:1.7;margin-bottom:22px}
 .ref-tag{display:inline-block;padding:8px 22px;border-radius:20px;border:1px solid var(--border2);background:var(--blue4);color:var(--blue2);font-size:12px;font-weight:600;letter-spacing:0.07em;margin-bottom:30px;}
-.btn-again{background:transparent;border:1px solid var(--border2);color:var(--blue2);padding:13px 32px;border-radius:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Space Grotesk',sans-serif;transition:background 0.15s,box-shadow 0.15s;}
+.btn-again{background:transparent;border:1px solid var(--border2);color:var(--blue2);padding:13px 32px;border-radius:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;transition:background 0.15s,box-shadow 0.15s;}
 .btn-again:hover{background:var(--blue4);box-shadow:0 0 20px var(--blue3)}
 
 /* TOAST */
@@ -326,20 +326,19 @@ async function submitForm(){
   const data={id:refId,submittedAt:new Date().toLocaleString(),date:vl('f-date'),name:vl('f-name'),project:vl('f-project'),discipline:document.getElementById('f-discipline').value,observation:vl('f-observation'),photos:''};
 
   const btn=document.getElementById('submitBtn');
-  btn.disabled=true;btn.innerHTML='Preparing submission…';
+  btn.disabled=true;btn.innerHTML='Submitting…';
 
-  // Convert photos to base64 to send directly to Power Automate
-  const photoData = await getPhotosAsBase64();
-  data.photos = photoData.length ? photoData[0].data : '';
-  data.photoName = photoData.length ? photoData[0].name : '';
-  btn.innerHTML='Submitting…';
+  const FLOW_URL = 'https://default90b79189e48c4aecb15f708d3a67bc.38.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/0f4043b085e549c588dc49a7942dd265/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=zczOV2l32XSZSQylno7Cc9-877QnW3sXZ3HqHJEng00';
+
+  const validPhotos = photoFiles.filter(Boolean);
+  const hasPhotos = validPhotos.length > 0;
+  data.photos = hasPhotos ? validPhotos.length + ' photo(s) attached' : 'No photos attached';
 
   const all=JSON.parse(localStorage.getItem(STORE)||'[]');all.unshift(data);localStorage.setItem(STORE,JSON.stringify(all));
 
-  // POST to Power Automate — saves to SharePoint + sends email
+  // STEP 1: Send form data first (fast — no photos)
   try{
-    const FLOW_URL = 'https://default90b79189e48c4aecb15f708d3a67bc.38.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/0f4043b085e549c588dc49a7942dd265/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=zczOV2l32XSZSQylno7Cc9-877QnW3sXZ3HqHJEng00';
-    const response = await fetch(FLOW_URL, {
+    await fetch(FLOW_URL, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -350,16 +349,41 @@ async function submitForm(){
         discipline: data.discipline,
         observation: data.observation,
         photos: data.photos,
-        photoName: data.photoName || '',
+        photoName: '',
         submittedAt: data.submittedAt
       })
     });
   }catch(e){console.warn('Flow submit error:',e)}
 
+  // Show success immediately after form data sent
   document.getElementById('formCard').style.display='none';
   document.getElementById('refTag').textContent='REF: '+data.id;
   document.getElementById('successScreen').style.display='block';
   window.scrollTo({top:0,behavior:'smooth'});
+
+  // STEP 2: Upload photos in background (one by one, compressed)
+  if(hasPhotos){
+    for(let i=0;i<validPhotos.length;i++){
+      try{
+        const compressed = await compressImage(validPhotos[i], 1024, 0.7);
+        await fetch(FLOW_URL, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            refId: data.id + '_photo' + (i+1),
+            date: data.date,
+            name: data.name,
+            project: data.project,
+            discipline: 'PHOTO for ' + data.id,
+            observation: 'Photo ' + (i+1) + ' of ' + validPhotos.length + ' for observation ' + data.id,
+            photos: compressed,
+            photoName: validPhotos[i].name || ('photo'+(i+1)+'.jpg'),
+            submittedAt: data.submittedAt
+          })
+        });
+      }catch(e){console.warn('Photo upload error:',e)}
+    }
+  }
 }
 
 function restart(){
