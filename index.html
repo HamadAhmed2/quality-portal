@@ -279,18 +279,31 @@ async function getPhotosAsBase64(){
   if(!validFiles.length) return [];
   const results = [];
   for(const file of validFiles){
-    await new Promise(resolve => {
-      const reader = new FileReader();
-      reader.onload = ev => {
-        // Strip the data:image/...;base64, prefix
-        const base64 = ev.target.result.split(',')[1];
-        results.push({name: file.name, data: base64});
-        resolve();
-      };
-      reader.readAsDataURL(file);
-    });
+    // Compress image before encoding to reduce size
+    const compressed = await compressImage(file, 800, 0.6);
+    results.push({name: file.name, data: compressed});
   }
   return results;
+}
+
+async function compressImage(file, maxWidth, quality){
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let w = img.width, h = img.height;
+        if(w > maxWidth){ h = Math.round(h * maxWidth / w); w = maxWidth; }
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        const base64 = canvas.toDataURL('image/jpeg', quality).split(',')[1];
+        resolve(base64);
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
 // Submit
@@ -362,13 +375,4 @@ function toast(m){const t=document.getElementById('toast');t.textContent='⚠ '+
 // Export to Excel (run exportExcel() in browser console)
 function exportExcel(){
   const all=JSON.parse(localStorage.getItem(STORE)||'[]');
-  if(!all.length)return alert('No records yet.');
-  const rows=all.map(d=>({'Ref ID':d.id,'Submitted At':d.submittedAt,'Date':d.date,'Issuer Name':d.name,'Project No.':d.project,'Discipline':d.discipline,'Observation':d.observation,'Photos':d.photos}));
-  const ws=XLSX.utils.json_to_sheet(rows);
-  ws['!cols']=[10,18,12,22,16,14,50,12].map(w=>({wch:w}));
-  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Quality Observations');
-  XLSX.writeFile(wb,'QconQualityAlerts_'+new Date().toISOString().slice(0,10)+'.xlsx');
-}
-</script>
-</body>
-</html>
+  if(!all.length)return alert('No records yet
