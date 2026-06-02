@@ -247,8 +247,13 @@ input[type=date]::-webkit-calendar-picker-indicator{filter:invert(0.5) sepia(1) 
 // Splash
 window.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('f-date').value=new Date().toISOString().split('T')[0];
-  let p=0;const bar=document.getElementById('splashBar');
-  const iv=setInterval(()=>{p+=2.2;bar.style.width=Math.min(p,100)+'%';if(p>=100){clearInterval(iv);setTimeout(()=>{document.getElementById('splash').classList.add('gone');document.getElementById('app').classList.add('visible')},250)}},16);
+  const bar=document.getElementById('splashBar');
+  bar.style.transition='width 1.2s ease';
+  bar.style.width='100%';
+  setTimeout(()=>{
+    document.getElementById('splash').classList.add('gone');
+    document.getElementById('app').classList.add('visible');
+  },1400);
 });
 
 // Photos
@@ -375,4 +380,13 @@ function toast(m){const t=document.getElementById('toast');t.textContent='⚠ '+
 // Export to Excel (run exportExcel() in browser console)
 function exportExcel(){
   const all=JSON.parse(localStorage.getItem(STORE)||'[]');
-  if(!all.length)return alert('No records yet
+  if(!all.length)return alert('No records yet.');
+  const rows=all.map(d=>({'Ref ID':d.id,'Submitted At':d.submittedAt,'Date':d.date,'Issuer Name':d.name,'Project No.':d.project,'Discipline':d.discipline,'Observation':d.observation,'Photos':d.photos}));
+  const ws=XLSX.utils.json_to_sheet(rows);
+  ws['!cols']=[10,18,12,22,16,14,50,12].map(w=>({wch:w}));
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Quality Observations');
+  XLSX.writeFile(wb,'QconQualityAlerts_'+new Date().toISOString().slice(0,10)+'.xlsx');
+}
+</script>
+</body>
+</html>
