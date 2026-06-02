@@ -251,13 +251,8 @@ window.addEventListener('DOMContentLoaded',()=>{
   const iv=setInterval(()=>{p+=2.2;bar.style.width=Math.min(p,100)+'%';if(p>=100){clearInterval(iv);setTimeout(()=>{document.getElementById('splash').classList.add('gone');document.getElementById('app').classList.add('visible')},250)}},16);
 });
 
-// Cloudinary config
-const CLOUD_NAME = 'dyevmpo18';
-const UPLOAD_PRESET = 'nzl93pzb';
-
 // Photos
 let photoFiles = [];
-let photoUrls = []; // will hold Cloudinary URLs after upload
 
 function handlePhotos(e){
   const files = Array.from(e.target.files);
@@ -279,21 +274,23 @@ function removePhoto(idx, el){
   el.remove();
 }
 
-async function uploadPhotosToCloudinary(){
+async function getPhotosAsBase64(){
   const validFiles = photoFiles.filter(Boolean);
   if(!validFiles.length) return [];
-  const urls = [];
+  const results = [];
   for(const file of validFiles){
-    const fd = new FormData();
-    fd.append('file', file);
-    fd.append('upload_preset', UPLOAD_PRESET);
-    try{
-      const res = await fetch('https://api.cloudinary.com/v1_1/'+CLOUD_NAME+'/image/upload', {method:'POST', body:fd});
-      const json = await res.json();
-      if(json.secure_url) urls.push(json.secure_url);
-    }catch(e){ console.warn('Photo upload failed:', e); }
+    await new Promise(resolve => {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        // Strip the data:image/...;base64, prefix
+        const base64 = ev.target.result.split(',')[1];
+        results.push({name: file.name, data: base64});
+        resolve();
+      };
+      reader.readAsDataURL(file);
+    });
   }
-  return urls;
+  return results;
 }
 
 // Submit
@@ -311,11 +308,12 @@ async function submitForm(){
   const data={id:refId,submittedAt:new Date().toLocaleString(),date:vl('f-date'),name:vl('f-name'),project:vl('f-project'),discipline:document.getElementById('f-discipline').value,observation:vl('f-observation'),photos:''};
 
   const btn=document.getElementById('submitBtn');
-  btn.disabled=true;btn.innerHTML='Uploading photos…';
+  btn.disabled=true;btn.innerHTML='Preparing submission…';
 
-  // Upload photos to Cloudinary first, get back clickable URLs
-  const uploadedUrls = await uploadPhotosToCloudinary();
-  data.photos = uploadedUrls.length ? uploadedUrls.map((u,i)=>'Photo '+(i+1)+': '+u).join('\n') : 'No photos attached';
+  // Convert photos to base64 to send directly to Power Automate
+  const photoData = await getPhotosAsBase64();
+  data.photos = photoData.length ? photoData[0].data : '';
+  data.photoName = photoData.length ? photoData[0].name : '';
   btn.innerHTML='Submitting…';
 
   const all=JSON.parse(localStorage.getItem(STORE)||'[]');all.unshift(data);localStorage.setItem(STORE,JSON.stringify(all));
@@ -334,6 +332,7 @@ async function submitForm(){
         discipline: data.discipline,
         observation: data.observation,
         photos: data.photos,
+        photoName: data.photoName || '',
         submittedAt: data.submittedAt
       })
     });
